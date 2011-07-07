@@ -1,0 +1,235 @@
+\documentclass{beamer}
+ 
+\mode<presentation>
+{
+  \usetheme{Berlin}
+}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\title[Erlang: introduction] % (optional, use only with long paper titles)
+{An introduction to Erlang}
+
+\author{Arjan Scherpenisse}
+
+\date{July 7, 2011}
+
+\usepackage{pxfonts}
+\usepackage{listings}
+
+%% \AtBeginSection[]
+%% {
+%%   \begin{frame}<beamer>{Outline}
+%%     \tableofcontents[currentsection,currentsubsection]
+%%   \end{frame}
+%% }
+
+\begin{document}
+
+\lstset{language=erlang,
+        numbers=left,
+        numberstyle=\tiny,
+        showstringspaces=false,
+        aboveskip=-40pt,
+        frame=leftline,
+        escapechar=\#
+        }
+
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{About me}
+  \begin{itemize}
+  \item Studied AI at the Uva, graduated 2005
+  \item Went to Rietveld Academy after
+  \item Working at Mediamatic Lab
+  \item Soon will start freelancing
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Outline}
+  \tableofcontents
+  % You might wish to add the option [pausesections]
+\end{frame}
+
+\begin{frame}{Erlang..?}
+  \begin{itemize}
+  \item Invented in the 1980's by Joe Armstrong for Ericsson
+  \item Open-sourced in 1998
+  \item Functional language
+  \item Concurrency
+  \item Fault-tolerant
+  \end{itemize}
+
+\end{frame}
+
+
+\section{Hello, world}
+
+\begin{frame}[fragile]
+\frametitle{How it all starts}
+  \begin{semiverbatim}
+    \begin{lstlisting}
+-module(hello).
+-export([say/0]).
+
+say() ->
+    io:format("Hello, world!~n").
+    \end{lstlisting}
+  \end{semiverbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+Run with:
+
+  \begin{semiverbatim}
+# erl
+Erlang R13B03 (erts-5.7.4) [source] 
+
+Eshell V5.7.4  (abort with ^G)
+1> c(hello).
+{ok,hello}
+2> hello:say().
+Hello, world!
+ok
+3> 
+  \end{semiverbatim}
+  
+  \begin{itemize}
+  \item The interactive shell is handy!  
+  \end{itemize}
+
+\end{frame}
+
+
+\section{Datatypes}
+
+\begin{frame}[fragile]
+  \frametitle{Numbers}
+
+  \begin{itemize}
+  \item Numbers, you know
+  \end{itemize}
+
+  \begin{semiverbatim}
+1> 1.
+1
+2> 1+1.
+2
+3> 1+1.22.
+2.2199999999999998
+
+  \end{semiverbatim}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Atoms}
+  \begin{itemize}
+  \item Symbolic names, like constants
+  \item Starting with lowercase letter
+  \item Optionally escaped in {\em single} quotes.
+  \end{itemize}
+  \begin{semiverbatim}
+4> foo.
+foo
+5> 'foo bar'.
+'foo bar'
+6> foo+bar.
+** exception error: bad argument in an arithmetic expression
+     in operator  +/2
+        called as foo + bar
+7> foo == foo.
+true
+  \end{semiverbatim}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Booleans}
+  \begin{itemize}
+  \item Booleans are atoms, too, but allow for boolean logic.
+  \end{itemize}
+
+  \begin{semiverbatim}
+1> true.
+true
+2> false.
+false
+3> false or true.
+true
+  \end{semiverbatim}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Strings}
+  \begin{itemize}
+  \item Strings are surrounded by double quotes
+  \end{itemize}
+
+  \begin{semiverbatim}
+6> "Hello world".
+"Hello world"
+  \end{semiverbatim}
+
+  \begin{itemize}
+  \item In fact, strings are just lists of numbers:
+  \end{itemize}
+
+  \begin{semiverbatim}
+2> [72,101,108,108,111,32,119,111,114,108,100].
+"Hello world"
+3> \$H.
+72
+  \end{semiverbatim}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Lists}
+  \begin{itemize}
+  \item Variable-length containers
+  \item Can contain any other data type
+  \item Use {\tt ++} to concatenate 2 lists
+  \end{itemize}
+
+  \begin{semiverbatim}
+3> [hello, 3.1415, [1,2] ].  
+[hello,3.1415,[1,2]]
+4> [foo] ++ [bar].
+[foo,bar]
+  \end{semiverbatim}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Tuples}
+  \begin{itemize}
+  \item Fixed-length containers
+  \item Can contain any other data type
+  \item Cannot be changed after declaring
+  \end{itemize}
+
+  \begin{semiverbatim}
+6> \{1,dd\}.
+\{1,dd\}
+7> \{1,dd, [a, list, \{tuple\}]\}.
+\{1,dd,[a,list,{tuple}]\}
+  \end{semiverbatim}
+
+\end{frame}
+
+ 
+\end{document}

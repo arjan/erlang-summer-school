@@ -1,14 +1,5 @@
-%% Comment
 -module(hello).
--export([hello/0,
-         world/0
-        ]).
+-export([say/0]).
 
-%% @doc This is the documentation
-hello() ->
+say() ->
     io:format("Hello, world!~n").
-
-world() ->
-    aap.
-
-
