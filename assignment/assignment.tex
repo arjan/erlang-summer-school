@@ -1,0 +1,95 @@
+\documentclass{article}
+\usepackage{hyperref}
+
+\begin{document}
+
+
+\title{Erlang UvA Summer School}
+\author{Arjan Scherpenisse}
+
+\maketitle
+\vspace*{2mm}
+
+\section{A simple chat system}
+
+Use {\tt spawn/1} and {\tt register/2} to start a named server process
+which maintains a list of connected clients in its state.  Every
+message that the server received, needs to be sent to every other
+client. Using {\tt register/2} you can give the server process a name,
+so each client  connect to it. The client prints every received
+message.
+
+You should create two modules, one for the client and one for the
+server; e.g. {\tt chat\_client} and {\tt chat\_server}.
+
+{\tt chat\_server} should export a function {\tt start/0} which spawns
+the server process and registers it.
+
+{\tt chat\_client} should export functions {\tt connect/0} to connect
+to the server, and {\tt message/1} to send a message to all connected
+clients.
+
+Launch different terminals with different Erlang shells to test your
+code: one terminal for the server, and one for each client. Use {\tt
+  "erl -sname <nodename>"} to start the erlang shells so the erlang
+processes are connected. Use the syntax {\tt \{Processname, NodeName\}
+  ! Message} to send a message between nodes. For instance: {\tt
+  \{server, server@localhost\} ! "foo"} to send {\tt "foo"} to the
+registered process called {\tt server} in the {\tt "erl -sname
+  server"} terminal.
+
+You can use {\tt net\_adm:ping(nodename@localhost)} to test if your
+terminal is connected to the other nodes.
+
+\section{Possible extensions}
+
+\begin{enumerate}
+
+\item Before sending, echo the message locally using {\tt
+  io:format/2}. Then, send the message to every other client {\bf but}
+  the sending client, to disable local echo.
+
+\item Require a nickname which clients have to enter when
+  registering/connecting. Send this nickname along while broadcasting
+  client's messages.
+
+\item In the server, maintain a history of the last $N$ messages (with
+  timestamps!) that have been sent, and send these upon establishing
+  connection.
+
+\item Implement the concept of {\em rooms}: clients can join specific
+  rooms and only receive messages sent to those rooms. Find a nice way
+  to maintain the list of rooms and clients on the server.
+
+\item Use the \href{https://github.com/basho/rebar}{rebar} build
+  system to build your app instead of calling {\tt c(filename).}, and
+  use the OTP guidelines to make a proper {\tt gen\_server} out of the
+  chat server.
+  
+\item For more chat inspiration: look at the
+  \href{http://tools.ietf.org/html/rfc1459#section-3}{features of the
+    IRC protocol}, or, even better, the
+  \href{http://xmpp.org/extensions/xep-0045.html}{XMPP (Jabber) MUC}
+  (Multi User Chat) specification to implement more features in your
+  chat system.
+
+\item Make the server/client communicate with eachother over TCP/IP
+  like a proper internet server; use the
+  \href{http://ftp.csd.uu.se/pub/mirror/erlang/doc/man/gen\_tcp.html}{{\tt
+      gen\_tcp}} OTP module. This is a major step: you need to
+  implement proper protocol parsing, no more passing around Erlang
+  terms between client/server...
+
+\item Implement a web interface for your module, implementing realtime
+  web chat using websockets or longpolling. Woah! This sounds more
+  complicated than it is. Ask Arjan about
+  \href{http://zotonic.com/}{Zotonic}, and/or check out the
+  \href{http://code.google.com/p/zchat/}{zchat} module from Google
+  code.
+
+ \item For extra brownie points, document your code, put it in a DVCS,
+   publish it on Github, tweet about it, et cetera :-)
+
+\end{enumerate}
+
+\end{document}
